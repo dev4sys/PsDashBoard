@@ -18,13 +18,20 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+			<!-- override border shown onclick or hover textbox -->
+			<Style x:Key="CustomStyle" TargetType="TextBox">
+			   <Style.Triggers>
+				<Trigger Property="IsFocused" Value="True">
+				 <Setter Property="Background" Value="#E0E0E0" />
+				</Trigger>
+			   </Style.Triggers>
+			  </Style>
+		</ResourceDictionary>
     </Window.Resources>	
 	
 	<Grid>
 
         <Grid.Resources>
-
             <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type controls:HamburgerMenuIconItem}">
                 <Grid Height="48">
                     <Grid.ColumnDefinitions>
@@ -51,17 +58,27 @@
         
 		
 		<Grid.RowDefinitions>
-			<RowDefinition Height="150" />
+			<RowDefinition Height="100" />
 			<RowDefinition />
 		</Grid.RowDefinitions>
 		
 		<Grid Grid.Row="0" Background="#3D3D3D">
-
+			<StackPanel Height="35" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
+				<TextBox x:Name="searchbar" Style="{StaticResource CustomStyle}" FontSize="20" Width="500" IsEnabled="True"/>
+				<Button Width="50" x:Name="searchbarbtn" BorderThickness="0" Margin="0,0,0,0" 
+						Style="{DynamicResource SquareButtonStyle}" Cursor="Hand" Background="#2196f3">
+					<Rectangle Width="20" Height="20" HorizontalAlignment="Center" 
+							   VerticalAlignment="Center" Fill="white" >
+						<Rectangle.OpacityMask>
+							<VisualBrush  Stretch="Fill" Visual="{StaticResource appbar_magnify}"/>
+						</Rectangle.OpacityMask>
+					</Rectangle>
+				</Button>
+			</StackPanel>
 		</Grid>
 		
 		<Grid Grid.Row="1">
 		
-
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="300" />
 				<ColumnDefinition />
@@ -73,7 +90,32 @@
 					<RowDefinition />
 				</Grid.RowDefinitions>
 				<Border Grid.Row="0" Background="#FF444444"></Border>
-				<Grid Grid.Row="1"></Grid> 
+				<Grid Grid.Row="1">
+					
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition Height="80"/>
+					</Grid.RowDefinitions>
+					<StackPanel Grid.Row="0" 
+					HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+					Orientation="Horizontal" Margin="0,0,0,0" >
+						<Grid>
+						
+						</Grid>
+					</StackPanel>
+					<StackPanel Grid.Row="1" Orientation="Vertical" Margin="10,10,10,20" VerticalAlignment="Bottom">
+						<GridSplitter HorizontalAlignment="Stretch" Foreground="LightSkyBlue" Height="1" Margin="0,0,0,5" VerticalAlignment="Top"/>
+						<StackPanel Orientation="Horizontal">
+							<Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+								<Rectangle.Fill>
+									<VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_barcode}" />
+								</Rectangle.Fill>
+							</Rectangle>
+							<Label x:Name="MTMLabel" Content=" Copyright © 2018 " Foreground="White" Height = "30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+						</StackPanel>
+					</StackPanel>
+					
+				</Grid> 
 			</Grid>
 		
 			<controls:HamburgerMenu Grid.Column="1" 
@@ -90,23 +132,23 @@
 				
 					<controls:HamburgerMenuItemCollection>
 						<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_people_status }"
-														Label="Home">
+														Label="User">
 							<controls:HamburgerMenuIconItem.Tag>
-								<Grid x:Name="HomeView"></Grid>
+								<Grid x:Name="UserView"></Grid>
 							</controls:HamburgerMenuIconItem.Tag>
 						</controls:HamburgerMenuIconItem>
 						
 						<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_monitor}"
-														 Label="Private">
+														 Label="Computer">
 							<controls:HamburgerMenuIconItem.Tag>
-								<Grid x:Name="PrivateView"></Grid>
+								<Grid x:Name="ComputerView"></Grid>
 							</controls:HamburgerMenuIconItem.Tag>
 						</controls:HamburgerMenuIconItem>
 
 						<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_graph_line}"
-														 Label="Settings">
+														 Label="Analytics">
 							<controls:HamburgerMenuIconItem.Tag>
-								<Grid x:Name="SettingsView"></Grid>
+								<Grid x:Name="AnalyticsView"></Grid>
 							</controls:HamburgerMenuIconItem.Tag>
 						</controls:HamburgerMenuIconItem>
 						
@@ -144,6 +186,7 @@
 			</controls:HamburgerMenu>
 			
 		</Grid>
-    </Grid>
+    
+	</Grid>
 	
 </controls:MetroWindow>
